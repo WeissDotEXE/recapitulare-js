@@ -1,30 +1,19 @@
 const express = require("express");
-const app = express();
-const {products}=require('./data');
+const app = new express();
 
-app.get('/', (req, res) => {
-  res.send('<h1>Home Page</h1><a href="/api/products">Products</a>')
-});
-app.get('/api/products',(req,res)=>{
-  const newProducts=products.map((product)=>{
-    const {id,name,image}=product;
-    return {id,name,image}
-  })
-  res.json(newProducts)
-})
+const auth=require('./routes/auth');
+const people =require('./routes/people');
 
-app.get('/api/products/:productID',(req,res)=>{
-  const {productID}=req.params;
-  const singleProduct=products.find((products)=>products.id===Number(productID))
-  if(!singleProduct){
-    return res.status(404).send('Product does not exist')
-  }
-  res.json(singleProduct)
-})
+//static assets
+app.use(express.static("./methods-public"));
+//parse from data
+app.use(express.urlencoded({ extended: false }));
 
-app.all('*',(req,res)=>{
-  res.send('Error Page');
-})
+app.use(express.json());
+
+app.use('/login',auth);
+app.use('/api/people', people);
+
 app.listen(5000, () => {
   console.log("server is listening on port 5000");
 });
