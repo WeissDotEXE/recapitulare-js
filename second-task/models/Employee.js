@@ -24,6 +24,9 @@ const EmployeesSchema=mongoose.Schema({
     job_title:{
         type:String,
         required:true
+    },
+    project_id:{
+        type:String
     }
 });
 

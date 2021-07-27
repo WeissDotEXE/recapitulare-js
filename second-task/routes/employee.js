@@ -14,6 +14,7 @@ router.get("/", async (req, res) => {
 });
 //acesta TRIMITE angajatii
 router.post("/", async (req, res) => {
+  console.log(req.body);
   const employee = new Employee({
     name: req.body.name,
     adress: req.body.adress,

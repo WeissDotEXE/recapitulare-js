@@ -1,19 +1,21 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 //Middlewares
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded());
 
 //importam env pentru a ascunde link-ul de la baza de date
 require("dotenv/config");
 
-app.use(bodyParser.json());
 //import Routes
 const employeeRoute = require("./routes/employee");
+const projectRoute = require("./routes/projects");
 
 app.use("/employee", employeeRoute);
+app.use("/projects", projectRoute);
 //routes
 app.get("/", (req, res) => {
   res.send("Home page");
@@ -28,4 +30,4 @@ mongoose.connect(
   }
 );
 
-app.listen(5000);
+app.listen(4000);
