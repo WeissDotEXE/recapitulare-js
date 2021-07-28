@@ -7,19 +7,20 @@ router.get("/", async (req, res) => {
   try {
     const projects = await Projects.find();
     res.json(projects);
+    res.send(employees);
   } catch (error) {
-    res.json({ message: "somethign is wrong" });
+    res.json({ message: "something is wrong" });
   }
 });
 
 //query pentru angajat
-router.get('/query',async(req,res)=>{
-  const {name}=req.query;
-  if(name){
-    res.json()
-  }
-  res.send(req.query)
-})
+// router.get('/query',async(req,res)=>{
+//   const {name}=req.query;
+//   if(name){
+//     res.json()
+//   }
+//   res.send(req.query)
+// })
 
 //adaugare proiect (POST)
 router.post("/", async (req, res) => {
@@ -35,7 +36,7 @@ router.post("/", async (req, res) => {
     const savedProject = await project.save();
     res.json(savedProject);
   } catch (error) {
-    res.json({ message: "error" });
+    res.json({ message: error });
   }
 });
 

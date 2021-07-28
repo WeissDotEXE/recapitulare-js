@@ -1,0 +1,24 @@
+table {
+  position: relative;
+  left: 8%;
+  width: 80%;
+  background-color: #f0f0f0;
+}
+
+table #test {
+  background: turquoise;
+  border-radius: 30px;
+  padding: 10px;
+  margin: 10px;
+}
+
+table tr {
+  background-color: #c4c4c4;
+  border-radius: 30px;
+}
+
+table tr th {
+  background: #f0f0f0;
+  padding: 10px;
+}
+/*# sourceMappingURL=Table.module.css.map */

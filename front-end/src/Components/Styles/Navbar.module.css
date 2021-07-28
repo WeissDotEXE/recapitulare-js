@@ -1,0 +1,38 @@
+.navbar {
+  background-color: transparent;
+}
+
+#logo {
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  text-decoration: none;
+  font-size: 3vw;
+  font-weight: 700;
+  color: white;
+}
+
+#logo:hover {
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  color: black;
+}
+
+.links {
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  font-size: 2vw;
+  text-decoration: none;
+  color: white;
+  margin: 0px 30px 0px 30px;
+  font-weight: 500;
+}
+
+.links:hover {
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  color: black;
+  background-color: white;
+  padding: 0px 20px 0px 20px;
+  border-radius: 10px;
+}
+/*# sourceMappingURL=Navbar.module.css.map */

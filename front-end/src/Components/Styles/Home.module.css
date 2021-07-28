@@ -1,0 +1,39 @@
+.home {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+}
+
+.home .left_content h1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 5vw;
+  width: 50%;
+  margin-left: 10%;
+  font-weight: 600;
+  color: white;
+  margin-top: 18%;
+}
+
+.home .left_content p {
+  position: absolute;
+  bottom: 0;
+  color: white;
+  margin-left: 2.5%;
+}
+
+.home .right_content img {
+  position: relative;
+  width: 100%;
+  height: 80%;
+  top: 8%;
+}
+/*# sourceMappingURL=Home.module.css.map */
