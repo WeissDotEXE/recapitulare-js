@@ -45,8 +45,7 @@ router.patch("/:employeeId",async(req,res)=>{
   try{
     const updateEmployee=await Employee.updateOne({_id:req.params.employeeId},{$set:{name:req.body.name}})
     res.json(updateEmployee);
-  }
-  catch(error){
+  }catch(error){
     res.json({message:error});
   }
 })

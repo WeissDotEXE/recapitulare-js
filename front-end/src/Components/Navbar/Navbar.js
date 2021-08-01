@@ -21,10 +21,10 @@ const Navbar = () => {
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <Link className={styles.links} to="/employees">Employees</Link>
+              <Link className={styles.links} to="/employees">Angajati</Link>
             </li>
             <li class="nav-item">
-              <Link className={styles.links} to="/projects">Projects</Link>
+              <Link className={styles.links} to="/projects">Proiecte</Link>
             </li>
           </ul>
         </div>

@@ -3,27 +3,26 @@ const mongoose=require('mongoose');
 const EmployeesSchema=mongoose.Schema({
     name:{
         type:String,
-        required:true
+        //required:true
     },
     adress:{
         type:String,
-        required:true
+        //required:true
     },
     email:{
         type:String,
-        required:true
+        //required:true
     },
     hire_date:{
         type:Date,
-        default:Date.now.length,
     },
     salary:{
         type:Number,
-        required:true
+        //required:true
     },
     job_title:{
         type:String,
-        required:true
+        //required:true
     },
     project_id:{
         type:String

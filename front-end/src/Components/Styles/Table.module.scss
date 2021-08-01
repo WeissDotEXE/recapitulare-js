@@ -1,22 +1,27 @@
+@import '../variables.scss';
+.table_card{
+  position: absolute;
+  left: 8.5%;
+  margin-top: 3%;
+  width: 80%;
+  padding: 10px;
+}
 table {
     position: relative;
-    left: 8%;
-    width: 80%;
+    width: 100%;
   background-color: #f0f0f0;
-  #test{
-    background: turquoise;
-    border-radius: 30px;
-    padding: 10px;
-    margin: 10px;
-}
-  tr {
-    background-color: #c4c4c4;
-    border-radius: 30px;
-    
-    th {
-      background: #f0f0f0;
+  text-align: center;
+  font-family: $font;
+  th{
+    font-weight: 800;
+    font-size: 1.4vw;
+    padding: 15px;
+  }
+  .table_line{
+    margin-top: 10px;
+    text-align: center;
+    td{      
       padding: 10px;
     }
-    
   }
 }

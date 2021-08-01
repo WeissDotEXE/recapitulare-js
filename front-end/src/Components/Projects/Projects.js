@@ -1,12 +1,13 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, Fragment } from "react";
 import Table from "../Table/Table";
-
+import AddProject from "../PostComponents/AddProject";
 const Projects = (props) => {
   const [project, setProject] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showAdd, setShowAdd] = useState(false);
 
-  const fetchProjectHandler = useCallback(async () => {
+  const fetchProjectHandler = async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -32,14 +33,24 @@ const Projects = (props) => {
       setError(error.message);
     }
     setIsLoading(false);
-  }, []);
+  };
 
   useEffect(() => {
     fetchProjectHandler();
-    console.log(project);
-  }, [fetchProjectHandler]);
+  }, []);
 
-  return <Table page="projects" />;
+  const closeAddHandler=()=>{
+    setShowAdd(false);
+  }
+
+  return (
+    <Fragment>
+      {showAdd && <AddProject closeHandler={closeAddHandler}/>}
+      <button onClick={() => setShowAdd(true)}>Add new Project</button>
+      <Table page="projects" project={project} />
+      
+    </Fragment>
+  );
 };
 
 export default Projects;
