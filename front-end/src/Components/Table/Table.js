@@ -25,6 +25,7 @@ const Table = (props) => {
   let employeeContent = null;
   let projectContent = null;
 
+
   //conditions for displaying dynamic content
   if (props.page === "employees") {
     title = employeeTitle.map((title) => {
@@ -34,12 +35,14 @@ const Table = (props) => {
       return (
         <Fragment>
           <tr className={styles.table_line}>
-            <td>{employee.name}</td>
+            <td >{employee.name}</td>
             <td>{employee.adress}</td>
             <td>{employee.email}</td>
             <td>{employee.hire_date}</td>
             <td>{employee.salary}</td>
             <td>{employee.job_title}</td>
+            <td><button id={styles.updateBtn} onClick={()=>props.show()}>Update</button></td>
+            <td><button id={styles.deleteBtn} onClick={()=>props.deleteItem(employee.id)}>Delete</button></td>
           </tr>
         </Fragment>
       );
@@ -57,10 +60,16 @@ const Table = (props) => {
             <td>{project.plannedEndDate}</td>
             <td>{project.description}</td>
             <td>{project.projectCode}</td>
+
           </tr>
         </Fragment>
       );
     });
+  }
+
+  //function for deleting an item
+  const deleteItem=()=>{
+
   }
 
   return (
