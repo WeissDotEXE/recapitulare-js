@@ -17,7 +17,7 @@ const ProjectsSchema=mongoose.Schema({
         type:String,
         //required:true
     },
-    Project_code:{
+    Project_Code:{
         type:String,
         //required:true
     }

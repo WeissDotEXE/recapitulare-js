@@ -24,7 +24,6 @@ const Employee = (props) => {
       }
 
       const data = await response.json();
-      const loadedEmployees = [];
 
       // for (const key in data) {
       //   loadedEmployees.push({
@@ -83,19 +82,22 @@ const Employee = (props) => {
   //condition for rendering different output if list of enployees is empty
   if (employee.length > 0) {
     content = (
+    <Fragment>
+    <button onClick={() => setShowAdd(true)}>Add Employee</button>
       <Table
         page="employees"
         employee={employee}
         deleteItem={deleteHandler}
         show={selectEmployee}
       />
+      </Fragment>
     );
   }
 
   //post function
   async function postEmployeeHandler(employeePost) {
     try {
-      const response = await fetch("http://localhost:4000/employee/", {
+      const response = await fetch("http://localhost:4000/employees/", {
         method: "POST",
         body: JSON.stringify(employeePost),
         headers: {
@@ -113,8 +115,6 @@ const Employee = (props) => {
     setEmployeePost(enteredData);
     postEmployeeHandler(enteredData);
     console.log(enteredData);
-    //window.location.reload();
-    return false;
   };
 
   const closeHandler = () => {
@@ -136,7 +136,7 @@ const Employee = (props) => {
       {showUpdate && (
         <UpdateEmployee closeHandler={closeHandler} employee={employee} />
       )}
-      <button onClick={() => setShowAdd(true)}>Add Employee</button>
+      
       {content}
     </Fragment>
   );

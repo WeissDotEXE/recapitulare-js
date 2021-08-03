@@ -12,7 +12,7 @@ const AddEmployee = (props) => {
   const salaryRef = useRef("");
   const jobTitleRef = useRef("");
 
-  const submitHandler = (event) => {
+  const submitHandler = () => {
     const employeeData = {
       name: nameRef.current.value,
       adress: adressRef.current.value,

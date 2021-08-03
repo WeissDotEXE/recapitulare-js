@@ -10,7 +10,7 @@ const employeeTitle = [
   "Job Title",
 ];
 const projectsTitle = [
-  "Name",
+  "Project Name",
   "Start Date",
   "Planned End Date",
   "Description",
@@ -60,7 +60,8 @@ const Table = (props) => {
             <td>{project.plannedEndDate}</td>
             <td>{project.description}</td>
             <td>{project.projectCode}</td>
-
+            <td><button id={styles.updateBtn} onClick={()=>props.show()}>Update</button></td>
+            <td><button id={styles.deleteBtn} onClick={()=>props.deleteItem(project.id)}>Delete</button></td>
           </tr>
         </Fragment>
       );
