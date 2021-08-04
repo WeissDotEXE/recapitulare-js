@@ -83,7 +83,7 @@ const Employee = (props) => {
   if (employee.length > 0) {
     content = (
     <Fragment>
-    <button onClick={() => setShowAdd(true)}>Add Employee</button>
+    
       <Table
         page="employees"
         employee={employee}
@@ -136,7 +136,7 @@ const Employee = (props) => {
       {showUpdate && (
         <UpdateEmployee closeHandler={closeHandler} employee={employee} />
       )}
-      
+      <button onClick={() => setShowAdd(true)}>Add Employee</button>
       {content}
     </Fragment>
   );
