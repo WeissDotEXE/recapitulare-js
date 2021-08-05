@@ -2,7 +2,12 @@ import React from 'react';
 import Card from '../UI/Card';
 import styles from "../Styles/Register.module.scss";
 
+import { useDispatch } from 'react-redux';
+
 const Login=()=>{
+
+    const dispatch=useDispatch();
+
     return(
         <Card className={styles.register_login} >
             <h1 id={styles.header_txt}>Login</h1>
