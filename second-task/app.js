@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
+
 //Middlewares
 app.use(cors());
 app.use(express.json());
@@ -13,9 +14,11 @@ require("dotenv/config");
 //import Routes
 const employeeRoute = require("./routes/employee");
 const projectRoute = require("./routes/projects");
+const registerRoute=require("./routes/users");
 
 app.use("/employee", employeeRoute);
 app.use("/projects", projectRoute);
+app.use("/api",registerRoute);
 //routes
 app.get("/", (req, res) => {
   res.send("Home page");

@@ -5,29 +5,34 @@ import { Link } from "react-router-dom";
 //import for redux
 import { useSelector,useDispatch } from "react-redux";
 const Navbar = () => {
+
+  const dispatch = useDispatch();
   const userStatus = useSelector((state) => state.status);
-  const dispatch = useDispatch()
+
+  const logOutHandler=()=>{
+    dispatch({type:'userStatus'});
+  }
+
   //variable for conditional content(links)
   let links = null;
-  if (userStatus) {
+  if (userStatus===true) {
     links = (
       <Fragment>
         <li class="nav-item">
           <Link className={styles.links} to="/employees">
             Angajati
           </Link>
+          
         </li>
         <li class="nav-item">
           <Link className={styles.links} to="/projects">
             Proiecte
           </Link>
         </li>
-        <li class="nav-item" onClick={dispatch({type:"logOut"})}>
-          LogOut
-        </li>
+        <button id={styles.logOutBtn} onClick={logOutHandler}>Log out</button>
       </Fragment>
     );
-  } else {
+  } else if(userStatus===false){
     links = (
       <Fragment>
         <li>

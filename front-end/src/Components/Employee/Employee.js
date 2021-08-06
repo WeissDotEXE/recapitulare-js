@@ -77,22 +77,22 @@ const Employee = (props) => {
       setError(error.message);
     }
   };
-  let content = <h1 id={styles.noEmployee_txt}>No employee yet...</h1>;
+  let content = (<Fragment>
+    
+    <Table
+      page="employees"
+      employee={employee}
+      deleteItem={deleteHandler}
+      show={selectEmployee}
+    />
+    </Fragment>
+  )
 
   //condition for rendering different output if list of enployees is empty
-  if (employee.length > 0) {
-    content = (
-    <Fragment>
+  // if (employee.length > 0) {
+  //   content = (
     
-      <Table
-        page="employees"
-        employee={employee}
-        deleteItem={deleteHandler}
-        show={selectEmployee}
-      />
-      </Fragment>
-    );
-  }
+  // }
 
   //post function
   async function postEmployeeHandler(employeePost) {
@@ -106,7 +106,7 @@ const Employee = (props) => {
       });
       const data = await response.json();
       fetchEmployeeHandler();
-    } catch {
+    } catch(error){
       setError(error.message);
     }
   }
