@@ -1,7 +1,11 @@
 import React, { useEffect, useState, useCallback, Fragment } from "react";
 import Table from "../Table/Table";
 import AddProject from "../PostComponents/AddProject";
+import RestrictedPage from "../RestrictedPage/RestrictedPage";
+//import for redux
+import { useSelector } from "react-redux";
 const Projects = (props) => {
+
   const [project, setProject] = useState([]);
   const [projectPost, setProjectPost] = useState();
   const [isEmpty, setIsEmpty] = useState(true);
@@ -9,6 +13,9 @@ const Projects = (props) => {
   const [error, setError] = useState(null);
   const [showAdd, setShowAdd] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
+
+  //variable used for userStatus (from redux store)
+  const userStatus=useSelector(state=>state.userStatus);
 
   const fetchProjectHandler = useCallback(async () => {
     setIsLoading(true);
@@ -82,8 +89,11 @@ const Projects = (props) => {
     console.log(enteredData);
   };
 
-  return (
-    <Fragment>
+  let content=null;
+
+  if(userStatus){
+    content=(
+      <Fragment>
       {showAdd && (
         <AddProject
           closeHandler={closeAddHandler}
@@ -99,6 +109,15 @@ const Projects = (props) => {
           <Table page="projects" project={project} deleteItem={deleteHandler} />
         </Fragment>
       )}
+    </Fragment>
+    );
+  }else{
+    content=<RestrictedPage />
+  }
+
+  return (
+    <Fragment>
+      {content}
     </Fragment>
   );
 };

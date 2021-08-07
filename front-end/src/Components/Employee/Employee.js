@@ -4,7 +4,9 @@ import styles from "../Styles/Employee.module.scss";
 import AddEmployee from "../PostComponents/AddEmployee";
 import Table from "../Table/Table";
 import UpdateEmployee from "./UpdateEmployee";
-
+import RestrictedPage from '../RestrictedPage/RestrictedPage';
+//import for redux
+import { useSelector } from "react-redux";
 const Employee = (props) => {
   const [employee, setEmployee] = useState([]);
   const [employeePost, setEmployeePost] = useState();
@@ -13,6 +15,37 @@ const Employee = (props) => {
   const [error, setError] = useState(null);
   const [showAdd, setShowAdd] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
+
+  //userStatus with redux
+  const userStatus = useSelector((state) => state.status);
+
+  //variable for deciding which content will be rendered
+  //page with employees/restricted page
+  let pageContent = null;
+  //condition which will be rendered
+  //based on userStatus(redux)
+  if(userStatus===true){
+    pageContent=(<Fragment>
+      {showAdd && (
+        <AddEmployee
+          onSaveEmployeeData={saveEmployeeDataHandler}
+          closeHandler={closeHandler}
+          postHandler={postEmployeeHandler}
+        />
+      )}
+      {showUpdate && (
+        <UpdateEmployee closeHandler={closeHandler} employee={employee} />
+      )}
+      <button onClick={() => setShowAdd(true)}>Add Employee</button>
+      {table}
+    </Fragment>);
+  }else{
+    pageContent=(
+      <RestrictedPage />
+    );
+  }
+
+
   //function for fetching employees and their data
   const fetchEmployeeHandler = useCallback(async () => {
     setIsLoading(true);
@@ -24,18 +57,6 @@ const Employee = (props) => {
       }
 
       const data = await response.json();
-
-      // for (const key in data) {
-      //   loadedEmployees.push({
-
-      //     name: data[key].name,
-      //     adress: data[key].adress,
-      //     email: data[key].email,
-      //     hire_date: data[key].hire_date,
-      //     salary: data[key].salary,
-      //     job_title: data[key].job_title,
-      //   });
-      // }
 
       const transformedEmployee = data.map((employeeData) => {
         return {
@@ -60,9 +81,9 @@ const Employee = (props) => {
   }, [fetchEmployeeHandler]);
 
   //function for selecting user
-  const selectEmployee=()=>{
+  const selectEmployee = () => {
     setShowUpdate(true);
-  }
+  };
 
   //function for deleting an item from table(passing through props)
   const deleteHandler = async (id) => {
@@ -77,22 +98,16 @@ const Employee = (props) => {
       setError(error.message);
     }
   };
-  let content = (<Fragment>
-    
-    <Table
-      page="employees"
-      employee={employee}
-      deleteItem={deleteHandler}
-      show={selectEmployee}
-    />
+  let table = (
+    <Fragment>
+      <Table
+        page="employees"
+        employee={employee}
+        deleteItem={deleteHandler}
+        show={selectEmployee}
+      />
     </Fragment>
-  )
-
-  //condition for rendering different output if list of enployees is empty
-  // if (employee.length > 0) {
-  //   content = (
-    
-  // }
+  );
 
   //post function
   async function postEmployeeHandler(employeePost) {
@@ -106,7 +121,7 @@ const Employee = (props) => {
       });
       const data = await response.json();
       fetchEmployeeHandler();
-    } catch(error){
+    } catch (error) {
       setError(error.message);
     }
   }
@@ -122,22 +137,9 @@ const Employee = (props) => {
     setShowUpdate(false);
   };
 
-
-
   return (
     <Fragment>
-      {showAdd && (
-        <AddEmployee
-          onSaveEmployeeData={saveEmployeeDataHandler}
-          closeHandler={closeHandler}
-          postHandler={postEmployeeHandler}
-        />
-      )}
-      {showUpdate && (
-        <UpdateEmployee closeHandler={closeHandler} employee={employee} />
-      )}
-      <button onClick={() => setShowAdd(true)}>Add Employee</button>
-      {content}
+      {pageContent}
     </Fragment>
   );
 };

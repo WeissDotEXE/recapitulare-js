@@ -2,18 +2,37 @@ import React, { useState } from "react";
 import Card from "../UI/Card";
 import styles from "../Styles/Register.module.scss";
 
-import { useDispatch } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
 
-  const loginHandler=(event)=>{
-      event.preventDefault();
-      
-  }
+  const loginHandler = async (event) => {
+    event.preventDefault();
+    try {
+      const result = await fetch("http://localhost:4000/api/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => res.json())
+      if (result.status === "ok") {
+        console.log('Got the token: ', result.data)
+        dispatch({ type: "userStatus" });
+        console.log("login works");
+      } else{
+        
+      }
+    } catch (error) {
+      console.log("error login post");
+    }
+  };
 
   return (
     <Card className={styles.register_login}>

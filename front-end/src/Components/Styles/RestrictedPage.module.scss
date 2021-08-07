@@ -1,0 +1,33 @@
+@import '../variables.scss';
+
+.RestrictedPage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  i{
+      color: red;
+      font-size: 4vw;
+  }
+  .redirectBtn{
+      button{
+        transition: 0.4s;
+        background:transparent;
+        margin: 1rem;
+        padding: 15px 45px 15px 45px;
+        font-family: $font;
+        font-weight: 600;
+        font-size: 3vw;
+        border: 3px solid white;
+        color: white;
+        border-radius: 15px;
+      }
+      button:hover{
+        transition: 0.4s;
+        background-color: white;
+        color: black;
+      }
+  }
+}
