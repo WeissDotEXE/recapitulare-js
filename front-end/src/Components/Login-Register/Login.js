@@ -21,16 +21,10 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-      }).then((res) => res.json())
-      if (result.status === "ok") {
-        console.log('Got the token: ', result.data)
-        dispatch({ type: "userStatus" });
-        console.log("login works");
-      } else{
-        
-      }
+      })
+      dispatch({type:"userStatus"})
     } catch (error) {
-      console.log("error login post");
+      console.log(error);
     }
   };
 

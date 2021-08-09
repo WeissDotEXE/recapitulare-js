@@ -5,6 +5,7 @@ import AddEmployee from "../PostComponents/AddEmployee";
 import Table from "../Table/Table";
 import UpdateEmployee from "./UpdateEmployee";
 import RestrictedPage from '../RestrictedPage/RestrictedPage';
+import EmptyList from "../EmptyList/EmptyList";
 //import for redux
 import { useSelector } from "react-redux";
 const Employee = (props) => {
@@ -22,29 +23,19 @@ const Employee = (props) => {
   //variable for deciding which content will be rendered
   //page with employees/restricted page
   let pageContent = null;
+  let table=null;
   //condition which will be rendered
   //based on userStatus(redux)
-  if(userStatus===true){
-    pageContent=(<Fragment>
-      {showAdd && (
-        <AddEmployee
-          onSaveEmployeeData={saveEmployeeDataHandler}
-          closeHandler={closeHandler}
-          postHandler={postEmployeeHandler}
-        />
-      )}
-      {showUpdate && (
-        <UpdateEmployee closeHandler={closeHandler} employee={employee} />
-      )}
-      <button onClick={() => setShowAdd(true)}>Add Employee</button>
-      {table}
-    </Fragment>);
-  }else{
-    pageContent=(
-      <RestrictedPage />
-    );
-  }
 
+  const saveEmployeeDataHandler = (enteredData) => {
+    setEmployeePost(enteredData);
+    postEmployeeHandler(enteredData);
+    console.log(enteredData);
+  };
+  const closeHandler = () => {
+    setShowAdd(false);
+    setShowUpdate(false);
+  };
 
   //function for fetching employees and their data
   const fetchEmployeeHandler = useCallback(async () => {
@@ -93,21 +84,22 @@ const Employee = (props) => {
       });
       const data = await response.json();
       console.log(data);
+      table = (
+        <Fragment>
+          <Table
+            page="employees"
+            employee={employee}
+            deleteItem={deleteHandler}
+            show={selectEmployee}
+          />
+        </Fragment>
+      );
       fetchEmployeeHandler();
     } catch {
       setError(error.message);
     }
   };
-  let table = (
-    <Fragment>
-      <Table
-        page="employees"
-        employee={employee}
-        deleteItem={deleteHandler}
-        show={selectEmployee}
-      />
-    </Fragment>
-  );
+  
 
   //post function
   async function postEmployeeHandler(employeePost) {
@@ -126,20 +118,31 @@ const Employee = (props) => {
     }
   }
 
-  const saveEmployeeDataHandler = (enteredData) => {
-    setEmployeePost(enteredData);
-    postEmployeeHandler(enteredData);
-    console.log(enteredData);
-  };
-
-  const closeHandler = () => {
-    setShowAdd(false);
-    setShowUpdate(false);
-  };
+  if(userStatus===true){
+    pageContent=(
+    <Fragment>
+      {showAdd && (
+        <AddEmployee
+          onSaveEmployeeData={saveEmployeeDataHandler}
+          closeHandler={closeHandler}
+          postHandler={postEmployeeHandler}
+        />
+      )}
+      {showUpdate && (
+        <UpdateEmployee closeHandler={closeHandler} employee={employee} />
+      )}
+      <button onClick={() => setShowAdd(true)}>Add Employee</button>
+      {!isEmpty && table}
+    </Fragment>);
+  }else{
+    pageContent=(
+      <RestrictedPage />
+    );
+  }
 
   return (
     <Fragment>
-      {pageContent}
+      {!isEmpty ? pageContent : <EmptyList />}
     </Fragment>
   );
 };

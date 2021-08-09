@@ -1,24 +1,23 @@
 import React, { useEffect, useState, useCallback, Fragment } from "react";
+import styles from "../Styles/Projects.module.scss";
 import Table from "../Table/Table";
 import AddProject from "../PostComponents/AddProject";
 import RestrictedPage from "../RestrictedPage/RestrictedPage";
+import EmptyList from "../EmptyList/EmptyList";
 //import for redux
 import { useSelector } from "react-redux";
 const Projects = (props) => {
-
   const [project, setProject] = useState([]);
   const [projectPost, setProjectPost] = useState();
   const [isEmpty, setIsEmpty] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showAdd, setShowAdd] = useState(false);
-  const [showUpdate, setShowUpdate] = useState(false);
 
   //variable used for userStatus (from redux store)
-  const userStatus=useSelector(state=>state.userStatus);
+  const userStatus = useSelector((state) => state.userStatus);
 
+  //getting data(projects) from server
   const fetchProjectHandler = useCallback(async () => {
-    setIsLoading(true);
     setError(null);
     try {
       const response = await fetch("http://localhost:4000/projects");
@@ -38,11 +37,10 @@ const Projects = (props) => {
           projectCode: projectData.Project_code,
         };
       });
-      setProject(transformedProject);
+      // setProject(transformedProject);
     } catch (error) {
       setError(error.message);
     }
-    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -53,7 +51,7 @@ const Projects = (props) => {
     setShowAdd(false);
   };
 
-  //post function
+  //post function (sending project data to back-end)
   async function postProjectHandler(projectPost) {
     try {
       const response = await fetch("http://localhost:4000/projects/", {
@@ -70,6 +68,12 @@ const Projects = (props) => {
     }
   }
 
+  //conditional rendering for empthy list of projects
+  if (project.length !== 0) {
+    setIsEmpty(false);
+  }
+
+  //handler for deleting a project
   const deleteHandler = async (id) => {
     try {
       const response = await fetch(`http://localhost:4000/projects/${id}`, {
@@ -83,43 +87,52 @@ const Projects = (props) => {
     }
   };
 
+  //uplifting state from addProject
+  //which will be sent to back-end
   const saveProjectDataHandler = (enteredData) => {
     setProjectPost(enteredData);
     postProjectHandler(enteredData);
     console.log(enteredData);
   };
 
-  let content=null;
+  let content = null;
 
-  if(userStatus){
-    content=(
-      <Fragment>
-      {showAdd && (
-        <AddProject
-          closeHandler={closeAddHandler}
-          postHandler={postProjectHandler}
-          onSaveProjectData={saveProjectDataHandler}
-        />
-      )}
-      {isLoading ? (
-        <h1>Loading...</h1>
-      ) : (
-        <Fragment>
-          <button onClick={() => setShowAdd(true)}>Add new Project</button>
-          <Table page="projects" project={project} deleteItem={deleteHandler} />
-        </Fragment>
-      )}
-    </Fragment>
+  const showAddHandler = () => {
+    setShowAdd(true);
+  };
+
+  //conditional rendering if user is logged
+  if (!userStatus) {
+    content = (
+      // <Fragment>
+      //   {showAdd && (
+      //     <AddProject
+      //       closeHandler={closeAddHandler}
+      //       postHandler={postProjectHandler}
+      //       onSaveProjectData={saveProjectDataHandler}
+      //     />
+      //   )}
+      //   {isEmpty ? (
+      //     <EmptyList showAdd={showAddHandler} />
+      //   ) : (
+          <Fragment>
+            <button onClick={() => setShowAdd(true)}>Add new Project</button>
+            <Table
+              page="projects"
+              project={project}
+              deleteItem={deleteHandler}
+            />
+          </Fragment>
+      //   )}
+      //   )
+      // </Fragment>
     );
-  }else{
-    content=<RestrictedPage />
+  } else {
+    content = <RestrictedPage />;
   }
 
-  return (
-    <Fragment>
-      {content}
-    </Fragment>
-  );
+  //what is rendered on website
+  return <Fragment>{content}</Fragment>;
 };
 
 export default Projects;

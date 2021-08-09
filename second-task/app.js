@@ -2,10 +2,11 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
+const postRoute=require('./routes/post');
 
 //Middlewares
 app.use(cors());
-app.use(express.json());
+app.use(express.json());  //important pentru body(altfel ar fi gol);
 // app.use(express.urlencoded());
 
 //importam env pentru a ascunde link-ul de la baza de date
@@ -19,6 +20,7 @@ const registerRoute=require("./routes/users");
 app.use("/employee", employeeRoute);
 app.use("/projects", projectRoute);
 app.use("/api",registerRoute);
+app.use("/api/posts",postRoute)
 //routes
 app.get("/", (req, res) => {
   res.send("Home page");
@@ -29,7 +31,6 @@ mongoose.connect(
   process.env.DB_CONNECTION, //link baza de date MongoDB
   { useNewUrlParser: true },
   { useUnifiedTopology: true },
-
   () => {
     console.log("CONNECTED TO DB");
   }

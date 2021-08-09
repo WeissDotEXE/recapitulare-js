@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const Employee = require("../models/Employee");
-
+const user=require('../routes/users');
 //acesta AFISEAZA angajatii
 router.get("/", async (req, res) => {
   try {
     const employees = await Employee.find(); //o sa afiseze toate elementele din acel obiect
+
     res.json(employees);
     res.send(employees);
   } catch (error) {

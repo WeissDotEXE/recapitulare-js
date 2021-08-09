@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Projects = require("../models/Projects");
-
+const user=require('../routes/users');
 //afisare proeicte (GET)
 router.get("/", async (req, res) => {
   try {
