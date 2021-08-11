@@ -1,33 +1,28 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  ImageBackground,
+  View,
+  Pressable,
+} from "react-native";
+import Icon from "react-native-ico-material-design";
+import Navbar from "./components/Navbar/Navbar";
+// import HomeScreen from "./components/Screens/HomeScreen";
+// import Register from "./components/Screens/Register";
+// import Login from "./components/Screens/Login";
+
+const iconHeight = 26;
+const iconWidth = 26;
 export default function App() {
-  const [text, setText] = useState("");
-  const changeHandler = (event) => {
-    setText(event.target.value);
-  };
   return (
-    <View style={{ padding: 50 ,flexDirection:'column'}}>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <TextInput
-          placeholder="Add your to do"
-          style={{
-            borderColor: "black",
-            borderWidth: 1,
-            padding: 10,
-            borderRadius: 10,
-          }}
-        />
-        <Button title="add" />
-        <Text>{text}</Text>
-      </View>
-    </View>
-  );
+    <Navbar />
+  )
 }
+
+const styles = StyleSheet.create({
+});

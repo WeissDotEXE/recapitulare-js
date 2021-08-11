@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 
 //import for redux
 import { useSelector,useDispatch } from "react-redux";
+//import { userActions } from "../../redux";
 const Navbar = () => {
 
   const dispatch = useDispatch();
   const userStatus = useSelector((state) => state.status);
 
   const logOutHandler=()=>{
+    // dispatch(userActions.userStatus());
     dispatch({type:'userStatus'});
   }
 
