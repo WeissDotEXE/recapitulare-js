@@ -11,7 +11,8 @@ const AddProject = (props) => {
   const descriptionRef = useRef("");
   const projectCodeRef = useRef("");
 
-  const submitHandler = () => {
+  const submitHandler = (event) => {
+    event.preventDefault();
     const jobData = {
       Project_name: projectNameRef.current.value,
       Start_date: startDateRef.current.value,

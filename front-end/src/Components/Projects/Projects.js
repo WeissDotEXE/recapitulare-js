@@ -3,6 +3,7 @@ import styles from "../Styles/Projects.module.scss";
 import Table from "../Table/Table";
 import AddProject from "../PostComponents/AddProject";
 import RestrictedPage from "../RestrictedPage/RestrictedPage";
+import UpdateProject from "./UpdateProject";
 import EmptyList from "../EmptyList/EmptyList";
 //import for redux
 import { useSelector } from "react-redux";
@@ -12,13 +13,13 @@ const Projects = (props) => {
   const [isEmpty, setIsEmpty] = useState(true);
   const [error, setError] = useState(null);
   const [showAdd, setShowAdd] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
 
   //variable used for userStatus (from redux store)
-  const userStatus = useSelector((state) => state.userStatus);
+  const userStatus = useSelector((state) => state.status);
 
   //getting data(projects) from server
   const fetchProjectHandler = useCallback(async () => {
-    setError(null);
     try {
       const response = await fetch("http://localhost:4000/projects");
       if (!response.ok) {
@@ -27,7 +28,7 @@ const Projects = (props) => {
 
       const data = await response.json();
 
-      const transformedProject = data.map((projectData) => {
+      const transformedProjects = data.map((projectData) => {
         return {
           id: projectData._id,
           projectName: projectData.Project_name,
@@ -37,7 +38,7 @@ const Projects = (props) => {
           projectCode: projectData.Project_code,
         };
       });
-      // setProject(transformedProject);
+      setProject(transformedProjects);
     } catch (error) {
       setError(error.message);
     }
@@ -68,11 +69,6 @@ const Projects = (props) => {
     }
   }
 
-  //conditional rendering for empthy list of projects
-  if (project.length !== 0) {
-    setIsEmpty(false);
-  }
-
   //handler for deleting a project
   const deleteHandler = async (id) => {
     try {
@@ -95,44 +91,64 @@ const Projects = (props) => {
     console.log(enteredData);
   };
 
-  let content = null;
+  let pageContent = null;
+  let table = <Table
+  page="projects"
+  project={project}
+  deleteItem={deleteHandler}
+/>;
 
   const showAddHandler = () => {
     setShowAdd(true);
   };
 
+  const closeHandler=()=>{
+    setShowAdd(false);
+  }
+
   //conditional rendering if user is logged
-  if (!userStatus) {
-    content = (
-      // <Fragment>
-      //   {showAdd && (
-      //     <AddProject
-      //       closeHandler={closeAddHandler}
-      //       postHandler={postProjectHandler}
-      //       onSaveProjectData={saveProjectDataHandler}
-      //     />
-      //   )}
-      //   {isEmpty ? (
-      //     <EmptyList showAdd={showAddHandler} />
-      //   ) : (
-          <Fragment>
-            <button onClick={() => setShowAdd(true)}>Add new Project</button>
-            <Table
-              page="projects"
-              project={project}
-              deleteItem={deleteHandler}
-            />
-          </Fragment>
-      //   )}
-      //   )
-      // </Fragment>
+  // if (userStatus) {
+  //   pageContent = (
+  //     <Fragment>
+  //       {showAdd && (
+  //         <AddProject
+  //           onSaveEmployeeData={saveProjectDataHandler}
+  //           closeHandler={closeHandler}
+  //           postHandler={postProjectHandler}
+  //           onSaveProjectData={saveProjectDataHandler}
+  //         />
+  //       )}
+  //       {showUpdate && <UpdateProject project={project} />}
+        
+  //       {isEmpty && table}
+  //     </Fragment>
+  //   );
+  // } else {
+  //   pageContent = <RestrictedPage />;
+  // }
+  if (userStatus) {
+    pageContent = (
+      <Fragment>
+        {showAdd && (
+          <AddProject
+            onSaveProjectData={saveProjectDataHandler}
+            closeHandler={closeHandler}
+            postHandler={postProjectHandler}
+          />
+        )}
+        {showUpdate && (
+          <UpdateProject closeHandler={closeHandler} project={project} />
+        )}
+        <button onClick={() => setShowAdd(true)}>Add Project</button>
+        {isEmpty && table}
+      </Fragment>
     );
   } else {
-    content = <RestrictedPage />;
+    pageContent = <RestrictedPage />;
   }
 
   //what is rendered on website
-  return <Fragment>{content}</Fragment>;
+  return <Fragment>{pageContent}</Fragment>;
 };
 
 export default Projects;

@@ -4,7 +4,7 @@ import styles from "../Styles/Employee.module.scss";
 import AddEmployee from "../PostComponents/AddEmployee";
 import Table from "../Table/Table";
 import UpdateEmployee from "./UpdateEmployee";
-import RestrictedPage from '../RestrictedPage/RestrictedPage';
+import RestrictedPage from "../RestrictedPage/RestrictedPage";
 import EmptyList from "../EmptyList/EmptyList";
 //import for redux
 import { useSelector } from "react-redux";
@@ -23,7 +23,7 @@ const Employee = (props) => {
   //variable for deciding which content will be rendered
   //page with employees/restricted page
   let pageContent = null;
-  let table=null;
+
   //condition which will be rendered
   //based on userStatus(redux)
 
@@ -39,8 +39,6 @@ const Employee = (props) => {
 
   //function for fetching employees and their data
   const fetchEmployeeHandler = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
     try {
       const response = await fetch("http://localhost:4000/employee");
       if (!response.ok) {
@@ -64,7 +62,6 @@ const Employee = (props) => {
     } catch (error) {
       setError(error.message);
     }
-    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -99,12 +96,19 @@ const Employee = (props) => {
       setError(error.message);
     }
   };
-  
+  let table = (
+    <Table
+      page="employees"
+      employee={employee}
+      deleteItem={deleteHandler}
+      show={selectEmployee}
+    />
+  );
 
   //post function
   async function postEmployeeHandler(employeePost) {
     try {
-      const response = await fetch("http://localhost:4000/employees/", {
+      const response = await fetch("http://localhost:4000/employee/", {
         method: "POST",
         body: JSON.stringify(employeePost),
         headers: {
@@ -118,33 +122,28 @@ const Employee = (props) => {
     }
   }
 
-  if(userStatus===true){
-    pageContent=(
-    <Fragment>
-      {showAdd && (
-        <AddEmployee
-          onSaveEmployeeData={saveEmployeeDataHandler}
-          closeHandler={closeHandler}
-          postHandler={postEmployeeHandler}
-        />
-      )}
-      {showUpdate && (
-        <UpdateEmployee closeHandler={closeHandler} employee={employee} />
-      )}
-      <button onClick={() => setShowAdd(true)}>Add Employee</button>
-      {!isEmpty && table}
-    </Fragment>);
-  }else{
-    pageContent=(
-      <RestrictedPage />
+  if (userStatus) {
+    pageContent = (
+      <Fragment>
+        {showAdd && (
+          <AddEmployee
+            onSaveEmployeeData={saveEmployeeDataHandler}
+            closeHandler={closeHandler}
+            postHandler={postEmployeeHandler}
+          />
+        )}
+        {showUpdate && (
+          <UpdateEmployee closeHandler={closeHandler} employee={employee} />
+        )}
+        <button onClick={() => setShowAdd(true)}>Add Employee</button>
+        {isEmpty && table}
+      </Fragment>
     );
+  } else {
+    pageContent = <RestrictedPage />;
   }
 
-  return (
-    <Fragment>
-      {!isEmpty ? pageContent : <EmptyList />}
-    </Fragment>
-  );
+  return <Fragment>{pageContent}</Fragment>;
 };
 
 export default Employee;
