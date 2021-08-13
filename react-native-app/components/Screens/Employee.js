@@ -8,7 +8,14 @@ const Employee = ({ history }) => {
   //fetch employee
   const fetchEmployeeHandler = useCallback(async () => {
     try {
-      const response = await fetch("http://cbed8aacdd42.ngrok.io/employee");
+      const response = await fetch("http://3772b7c4ba35.ngrok.io/employee",{
+        method:'GET',
+        headers:{
+          Accept: 'application/json',
+          'Content-Type':'application/json'
+        }
+      });
+      console.log(response.data);
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }

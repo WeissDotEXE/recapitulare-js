@@ -18,6 +18,7 @@ const AddProject = (props) => {
       Project_code: projectCode
     };
     props.onSaveProjectData(projectData);
+    props.closeHandler();
     setProjectName('');
     setStartDate('');
     setEndDate('');
