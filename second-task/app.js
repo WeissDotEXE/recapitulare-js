@@ -9,6 +9,11 @@ app.use(cors());
 app.use(express.json());  //important pentru body(altfel ar fi gol);
 // app.use(express.urlencoded());
 
+const ngrok = require('ngrok');
+(async function() {
+  const url = await ngrok.connect();
+})();
+
 //importam env pentru a ascunde link-ul de la baza de date
 require("dotenv/config");
 

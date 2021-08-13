@@ -1,27 +1,24 @@
 import React, { useState } from "react";
-import {
-  Button,
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-} from "react-native";
+import { Button, StyleSheet, Text, View, Pressable } from "react-native";
 
-const HomeScreen = () => {
+const HomeScreen = ({history}) => {
   return (
     <View style={styles.navbar}>
-      <Button title="Home"/>
-      <Button title="Home"/>
-      <Button title="Home"/>
+      <Button title="Home" onPress={()=>history.push('/')}/>
+      <Button title="Projects" onPress={()=>history.push("/projects")}/>
+      <Button title="Employees" onPress={()=>history.push('/employees')}/>
+      <Text>Home</Text>
     </View>
   );
 };
 
-const styles=StyleSheet.create({
-  navbar:{
-    position: 'absolute',
-  bottom:0,
-    flexDirection:'row'
-  }
-})
+const styles = StyleSheet.create({
+  navbar: {
+    height: "30%",
+    justifyContent:"space-between",
+    flexDirection: "row",
+    marginTop:30,
+    paddingTop:20
+  },
+});
 export default HomeScreen;
